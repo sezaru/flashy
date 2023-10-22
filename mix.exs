@@ -1,0 +1,90 @@
+defmodule Flashy.MixProject do
+  @moduledoc false
+
+  use Mix.Project
+
+  @app :flashy
+  @name "Flashy"
+  @description "Flashy is a small library that extends LiveView's flash support to function and live components"
+  @version "0.1.0"
+  @github "https://github.com/sezaru/#{@app}"
+  @author "Eduardo Barreto Alexandre"
+  @license "MIT"
+
+  def project do
+    [
+      app: @app,
+      version: @version,
+      elixir: "~> 1.15",
+      name: @name,
+      description: @description,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      docs: docs(),
+      package: package(),
+      aliases: aliases(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: preferred_cli_env()
+    ]
+  end
+
+  def application, do: [extra_applications: [:logger]]
+
+  defp deps do
+    [
+      {:phoenix_live_view, "~> 0.20"},
+      {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
+      {:typed_struct, "~> 0.3.0", runtime: false}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      source_ref: "v#{@version}",
+      source_url: @github,
+      extras: [
+        "README.md"
+      ]
+    ]
+  end
+
+  defp package do
+    [
+      name: @app,
+      maintainers: [@author],
+      licenses: [@license],
+      links: %{"Github" => @github}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["deps.get", "assets.setup", "assets.build", "assets.package"],
+      "assets.get": ["cmd --cd assets npm install"],
+      "assets.setup": [
+        "assets.get",
+        "tailwind.install --if-missing",
+        "esbuild.install --if-missing"
+      ],
+      "assets.build": ["tailwind default", "esbuild default"],
+      "assets.package": ["esbuild package"],
+      "assets.deploy": [
+        "assets.get",
+        "tailwind default --minify",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
+    ]
+  end
+
+  defp preferred_cli_env do
+    [
+      coveralls: :test,
+      "coveralls.detail": :test,
+      "coveralls.post": :test,
+      "coveralls.html": :test
+    ]
+  end
+end

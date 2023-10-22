@@ -1,0 +1,9 @@
+{
+  "name": "flashy",
+  "description": "JS hooks for flashy",
+  "version": "1.0.0",
+  "main": "priv/static/flashy.min.js",
+  "repository": "git@github.com:sezaru/flashy.git",
+  "author": "Eduardo <sezdocs@fedora-2.local>",
+  "license": "MIT"
+}
