@@ -5,6 +5,8 @@
 
 Flashy is a small library that extends LiveView's flash support to function and live components.
 
+[2023-10-22 20-43-38.webm](https://github.com/sezaru/flashy/assets/279828/ac1784ab-1126-4625-8097-81d8fc40adb1)
+
 ## Installation
 
 First add `Flashy` to your list of dependencies in `mix.exs`:
