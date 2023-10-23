@@ -6,7 +6,7 @@ defmodule Flashy.MixProject do
   @app :flashy
   @name "Flashy"
   @description "Flashy is a small library that extends LiveView's flash support to function and live components"
-  @version "0.1.0"
+  @version "0.1.1"
   @github "https://github.com/sezaru/#{@app}"
   @author "Eduardo Barreto Alexandre"
   @license "MIT"
