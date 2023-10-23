@@ -17,7 +17,7 @@ defmodule Flashy.Container do
       <.render_notification key="disconnected" notification={@disconnected_notification} />
 
       <.render_notification
-        :for={{key, notification} <- Enum.sort_by(@flash, fn {key, _} -> key end)}
+        :for={{key, notification} <- Enum.sort_by(@flash, &sort_by_key/1)}
         key={key}
         notification={notification}
       />
@@ -35,4 +35,6 @@ defmodule Flashy.Container do
     <%= apply(Protocol.module(@notification), Protocol.function_name(@notification), [assigns]) %>
     """
   end
+
+  defp sort_by_key({"flashy-" <> key, _}), do: String.to_integer(key)
 end
