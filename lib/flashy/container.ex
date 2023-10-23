@@ -5,15 +5,26 @@ defmodule Flashy.Container do
 
   use Phoenix.Component
 
+  import PhxComponentHelpers
+
   attr :flash, :map, required: true
+
+  attr :class, :string, default: ""
+
+  attr :rest, :global
 
   def render(assigns) do
     disconnected_notification = Application.fetch_env!(:flashy, :disconnected_module).new()
 
-    assigns = Map.put(assigns, :disconnected_notification, disconnected_notification)
+    assigns =
+      assigns
+      |> Map.put(:disconnected_notification, disconnected_notification)
+      |> extend_class(
+        "pointer-events-none fixed py-3 flex flex-col gap-3 z-100 items-end max-h-screen right-0 top-0"
+      )
 
     ~H"""
-    <div class="pointer-events-none fixed py-3 flex flex-col gap-3 z-100 items-end max-h-screen right-0 top-0">
+    <div {@heex_class} {@rest}>
       <.render_notification key="disconnected" notification={@disconnected_notification} />
 
       <.render_notification
