@@ -32,7 +32,7 @@ const hooks = {
     MyHook: {
         // ...
     },
-    ...FlashHooks
+    ...FlashyHooks
 }
 
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks})
