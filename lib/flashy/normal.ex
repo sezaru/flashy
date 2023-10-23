@@ -26,6 +26,8 @@ defmodule Flashy.Normal do
 
   alias Flashy.{Helpers, Component, Normal.Options}
 
+  alias Phoenix.LiveView.JS
+
   use Phoenix.Component
 
   use TypedStruct
@@ -50,6 +52,9 @@ defmodule Flashy.Normal do
 
   attr :class, :string, default: ""
 
+  attr :hide_action, JS, default: nil
+  attr :show_action, JS, default: nil
+
   attr :rest, :global
 
   slot :inner_block
@@ -62,9 +67,9 @@ defmodule Flashy.Normal do
       id={@key}
       {@heex_class}
       phx-hook="FlashHook"
-      phx-mounted={Helpers.show_notification(@key)}
-      data-hide={Helpers.hide_notification(@key)}
-      data-show={Helpers.show_notification(@key)}
+      phx-mounted={@show_action || Helpers.show_notification(@key)}
+      data-hide={@hide_action || Helpers.hide_notification(@key)}
+      data-show={@show_action || Helpers.show_notification(@key)}
       data-dismissible={"#{@notification.options.dismissible?}"}
       data-dismiss-time={@notification.options.dismiss_time}
       {@rest}

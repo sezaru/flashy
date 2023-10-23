@@ -10,6 +10,8 @@ defmodule Flashy.Disconnected do
 
   alias Flashy.Helpers
 
+  alias Phoenix.LiveView.JS
+
   use Phoenix.Component
 
   use TypedStruct
@@ -27,6 +29,9 @@ defmodule Flashy.Disconnected do
 
   attr :class, :string, default: ""
 
+  attr :hide_action, JS, default: nil
+  attr :show_action, JS, default: nil
+
   attr :rest, :global
 
   slot :inner_block
@@ -39,8 +44,8 @@ defmodule Flashy.Disconnected do
       id={@key}
       {@heex_class}
       phx-hook="DisconnectedNotificationHook"
-      data-hide={Helpers.hide_notification(@key)}
-      data-show={Helpers.show_notification(@key)}
+      data-hide={@hide_action || Helpers.hide_notification(@key)}
+      data-show={@show_action || Helpers.show_notification(@key)}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
