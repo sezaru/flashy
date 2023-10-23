@@ -338,3 +338,121 @@ put_notification(socket, Custom.new("How are you today?", __MODULE__, id))
 ## More examples
 
 You can check how the library works by going to our [examples project](https://github.com/sezaru/flashy_example) to see it working in practice.
+
+## Customizing CSS
+
+By default `Flashy` notifications will show-up on the top right of the screen. But sometimes your requirements can be different, maybe you want the notifications to show-up on the left side, maybe the way `Flashy` default CSS doesn't work well with your project CSS, etc.
+
+`Flashy` uses `PhxComponentHelpers` to customize CSS, you can check the library here: https://hexdocs.pm/phx_component_helpers/PhxComponentHelpers.html
+
+`Flashy` allows to fully customize the CSS, as an example, I will show how to move the notifications to the left.
+
+The first place we can change CSS is to the `Flashy.Container` component, you can update your `lib/<your_app>_web/components/layouts/app.html.heex` file to:
+
+``` elixir
+<Flashy.Container.render
+  flash={@flash}
+  class="!right-0 left-0 !items-end items-start"
+/>
+```
+
+With this change, we are replacing `right-0` with `left-0` and `items-end` with `items-start`.
+
+Now, we want to customize our components, first, we will want to create a custom transition that will move from the left to right, let's create a module to add that since they are used by all notification components:
+
+``` elixir
+defmodule MyProjectWeb.Components.Notifications.Helpers do
+  @moduledoc false
+
+  alias Phoenix.LiveView.JS
+
+  def hide_notification(key) do
+    JS.hide(
+      to: "##{key}",
+      transition: {"ease-in duration-300", "translate-x-0", "translate-x-[-100%]"},
+      time: 300
+    )
+    |> JS.push("lv:clear-flash", value: %{key: key})
+  end
+
+  def show_notification(key) do
+    JS.show(
+      to: "##{key}",
+      transition: {"ease-in duration-300", "translate-x-[-100%]", "translate-x-0"},
+      time: 300
+    )
+  end
+end
+```
+
+Now let's start changing our components, let's start with the `Disconnected` one.
+
+First we add the alias to our new helper:
+
+``` elixir
+alias MyProjectWeb.Components.Notifications.Helpers
+```
+
+Then, inside the `render` function, we change the way we call `Flashy` disconnected render:
+
+``` elixir
+<Flashy.Disconnected.render
+  key={@key}
+  class="!pr-3 pl-3 !translate-x-full translate-x-[-100%]"
+  hide_action={Helpers.hide_notification(@key)}
+  show_action={Helpers.show_notification(@key)}
+>
+```
+
+What we are doing here is customize the CSS and the JS actions.
+
+For the CSS, we replaced `!pr-3` with `pl-3` and `translate-x-full` with `translate-x-[-100$]`.
+
+For the JS actions, we are using the ones for our helper instead of `Flashy` built-in ones.
+
+Now, let's do the same for the `Normal` component:
+
+``` elixir
+alias FlashyExampleWeb.Components.Notifications.Helpers
+
+...
+
+<Flashy.Normal.render
+  key={@key}
+  notification={@notification}
+  class="!pr-3 pl-3 !translate-x-full translate-x-[-100%]"
+  hide_action={Helpers.hide_notification(@key)}
+  show_action={Helpers.show_notification(@key)}
+>
+```
+
+It is exactly the same changes are the `Disconnected` component above.
+
+Finally, we will also update our `Custom` component.
+
+On that one we are importing `Flashy` built-in helpers, se we will replace that with ours:
+
+``` elixir
+alias FlashyExampleWeb.Components.Notifications.Helpers
+
+alias Flashy.Component
+```
+
+Now we just need to update the component CSS as-well.
+
+In this case we are not using `PhxComponentHelpers`, so we will just implement the full class directly:
+
+``` elixir
+<div
+  id={@id}
+  class={"pointer-events-auto pl-3 select-none drop-shadow flex items-center translate-x-[-100%] hidden"}
+  phx-mounted={Helpers.show_notification(@key)}
+  data-hide={Helpers.hide_notification(@key)}
+  data-show={Helpers.show_notification(@key)}
+  {@rest}
+>
+```
+
+After these changes, your notifications will show up on the left:
+
+
