@@ -14,6 +14,8 @@ defmodule Flashy.Disconnected do
 
   use TypedStruct
 
+  import PhxComponentHelpers
+
   typedstruct enforce: true do
     field :component, Flashy.Component.t()
   end
@@ -23,15 +25,19 @@ defmodule Flashy.Disconnected do
 
   attr :key, :string, required: true
 
+  attr :class, :string, default: ""
+
   attr :rest, :global
 
   slot :inner_block
 
   def render(assigns) do
+    assigns = extend_class(assigns, Helpers.notification_classes())
+
     ~H"""
     <div
       id={@key}
-      class={Helpers.notification_classes()}
+      {@heex_class}
       phx-hook="DisconnectedNotificationHook"
       data-hide={Helpers.hide_notification(@key)}
       data-show={Helpers.show_notification(@key)}

@@ -30,6 +30,8 @@ defmodule Flashy.Normal do
 
   use TypedStruct
 
+  import PhxComponentHelpers
+
   typedstruct enforce: true do
     field :type, atom
     field :message, String.t()
@@ -46,15 +48,19 @@ defmodule Flashy.Normal do
   attr :key, :string, required: true
   attr :notification, __MODULE__, required: true
 
+  attr :class, :string, default: ""
+
   attr :rest, :global
 
   slot :inner_block
 
   def render(assigns) do
+    assigns = extend_class(assigns, Helpers.notification_classes())
+
     ~H"""
     <div
       id={@key}
-      class={Helpers.notification_classes()}
+      {@heex_class}
       phx-hook="FlashHook"
       phx-mounted={Helpers.show_notification(@key)}
       data-hide={Helpers.hide_notification(@key)}
