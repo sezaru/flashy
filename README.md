@@ -455,4 +455,4 @@ In this case we are not using `PhxComponentHelpers`, so we will just implement t
 
 After these changes, your notifications will show up on the left:
 
-
+[2023-10-23 20-23-15.webm](https://github.com/sezaru/flashy/assets/279828/94e3f31e-a932-42cd-967c-ccedef53dfcf)
