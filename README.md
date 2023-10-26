@@ -14,7 +14,7 @@ First add `Flashy` to your list of dependencies in `mix.exs`:
 ``` elixir
 def deps do
   [
-    {:flashy, "~> 0.2.0"}
+    {:flashy, "~> 0.2.1"}
   ]
 end
 ```
