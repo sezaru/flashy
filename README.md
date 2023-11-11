@@ -66,7 +66,6 @@ Now go to your web file `lib/<your_app>_web.ex` and add the following to `html_h
   end
 ```
 
-
 Finally, you need to update your `lib/<your_app>_web/components/layouts/app.html.heex`:
 
 Replace the line:
@@ -99,6 +98,31 @@ Now, inside any `LiveComponent`, we can send a notification to the `LiveView` li
 notification = Notification.Normal.new(:success, "some notification")
 
 socket = send_notification(socket, notification)
+```
+
+### Using with controllers
+
+If you want to also use `Flashy` with controllers outside `LiveView`, first you need to go to your web file `lib/<your_app>_web.ex` and add the following to `controller` function:
+
+``` elixir
+defp controller do
+  quote do
+    ...
+
+    # Add Flash notifications functionality
+    import Flashy
+  end
+end
+```
+
+Now, inside any `Controller`, we can send a notification like this:
+
+``` elixir
+def index(conn, _) do
+  notification = Notifications.Normal.new(:info, "some notification")
+
+  conn |> put_notification(notification) |> render(:index)
+end
 ```
 
 ### Disconnected notifications
