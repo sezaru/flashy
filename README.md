@@ -81,6 +81,26 @@ With:
 <Flashy.Container.render flash={@flash} />
 ```
 
+### Flashy notification hook
+
+`Flashy` also has a hook that can be added to `LiveViews` to make it easier to send notifications from a `LiveComponent` to a `LiveView` when no navigation is happening.
+
+First, we need to add the hook to a `LiveView` `live_session`:
+
+``` elixir
+live_session :my_session, on_mount: [Flashy.Hook] do
+  ...
+end
+```
+
+Now, inside any `LiveComponent`, we can send a notification to the `LiveView` like this:
+
+``` elixir
+notification = Notification.Normal.new(:success, "some notification")
+
+socket = send_notification(socket, notification)
+```
+
 ### Disconnected notifications
 
 Now we need to, at least, implement the disconnected notification. `Flashy` doesn't come with any pre-defined disconnected notification design, so you need to implement it yourself.

@@ -11,4 +11,11 @@ defmodule Flashy do
 
     LiveView.put_flash(socket, key, notification)
   end
+
+  @spec send_notification(Socket.t(), Notification.Protocol.t(), pid) :: Socket.t()
+  def send_notification(%Socket{} = socket, notification, pid \\ self()) do
+    send(pid, {:flashy_notification, notification})
+
+    socket
+  end
 end
