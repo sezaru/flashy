@@ -13,4 +13,6 @@ defmodule Flashy.Hook do
 
   defp handle_info({:flashy_notification, notification}, socket),
     do: {:halt, Flashy.put_notification(socket, notification)}
+
+  defp handle_info(_, socket), do: {:cont, socket}
 end
