@@ -8,6 +8,8 @@ const DisconnectedNotificationHook = {
 
     destroyed() {
         clearTimeout(this.timer)
+
+        this.timer = null
     },
 
     disconnected() {
@@ -20,6 +22,8 @@ const DisconnectedNotificationHook = {
 
     reconnected() {
         clearTimeout(this.timer)
+
+        this.timer = null
 
         this.liveSocket.execJS(this.el, this.el.getAttribute("data-hide"))
     }
