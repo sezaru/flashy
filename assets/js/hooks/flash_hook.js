@@ -2,7 +2,7 @@ const hide = (liveSocket, element) => liveSocket.execJS(element, element.dataset
 
 const updateProgress = (element, progress) => element.style.width = `${progress}%`
 
-FlashHook = {
+const FlashHook = {
     mounted() {
         this.isDismissible = this.el.dataset.dismissible === "true"
 
