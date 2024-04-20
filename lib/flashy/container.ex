@@ -47,5 +47,6 @@ defmodule Flashy.Container do
     """
   end
 
+  defp sort_by_key({"flashy-custom-" <> key, _}), do: key
   defp sort_by_key({"flashy-" <> key, _}), do: String.to_integer(key)
 end
