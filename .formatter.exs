@@ -1,4 +1,4 @@
 [
-  import_deps: [:phoenix, :typed_struct],
+  import_deps: [:phoenix, :typedstruct],
   inputs: ["{mix,.formatter}.exs", "{config,lib,test}/**/*.{ex,exs}"]
 ]
