@@ -32,7 +32,7 @@ defmodule Flashy.MixProject do
 
   defp deps do
     [
-      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_live_view, ">= 0.20.0 and < 2.0.0"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.3", runtime: Mix.env() == :dev},
       {:typedstruct, "~> 0.5.0", runtime: false},
