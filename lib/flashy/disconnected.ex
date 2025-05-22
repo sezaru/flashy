@@ -3,7 +3,7 @@ defmodule Flashy.Disconnected do
 
   defmacro __using__(_opts) do
     quote do
-      @spec new(Component.t()) :: Flashy.Disconnected.t()
+      @spec new(Flashy.Component.t()) :: Flashy.Disconnected.t()
       defdelegate new(component \\ Flashy.Component.new(&render/1)), to: Flashy.Disconnected
     end
   end
@@ -22,7 +22,7 @@ defmodule Flashy.Disconnected do
     field :component, Flashy.Component.t()
   end
 
-  @spec new(Component.t()) :: t
+  @spec new(Flashy.Component.t()) :: t
   def new(component), do: struct!(__MODULE__, component: component)
 
   attr :key, :string, required: true
