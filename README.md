@@ -38,19 +38,12 @@ const hooks = {
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks})
 ```
 
-Now, inside `assets/tailwind.config.js`:
+Now, inside `assets/css/app.css`:
 
-``` javascript
+``` css
 ...
 
-module.exports = {
-  content: [
-    "./js/**/*.js",
-    "../lib/flashy_example_web.ex",
-    "../lib/flashy_example_web/**/*.*ex",
-    "../deps/flashy/**/*.*ex", // <-- Add this line
-  ],
-...
+@source "../../deps/flashy/**/*.*ex"; /* <-- Add this line */
 ```
 
 Now go to your web file `lib/<your_app>_web.ex` and add the following to `html_helpers` function:
