@@ -24,3 +24,8 @@ flashy-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+#Nix flake
+.direnv/
+.hex/
+.mix/
