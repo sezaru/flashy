@@ -19,6 +19,7 @@ defmodule Flashy.MixProject do
       name: @name,
       description: @description,
       start_permanent: Mix.env() == :prod,
+      compilers: [:phoenix_live_view] ++ Mix.compilers(),
       deps: deps(),
       docs: docs(),
       package: package(),
@@ -32,7 +33,7 @@ defmodule Flashy.MixProject do
 
   defp deps do
     [
-      {:phoenix_live_view, "~> 1.0.12"},
+      {:phoenix_live_view, "~> 1.1"},
       {:esbuild, "~> 0.9", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3.1", runtime: Mix.env() == :dev},
       {:typedstruct, "~> 0.5.3", runtime: false},
@@ -65,7 +66,7 @@ defmodule Flashy.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get", "assets.setup", "assets.build", "assets.package"],
+      setup: ["deps.get", "compile", "assets.setup", "assets.build"],
       "assets.get": ["cmd --cd assets npm install"],
       "assets.setup": [
         "assets.get",
@@ -73,7 +74,6 @@ defmodule Flashy.MixProject do
         "esbuild.install --if-missing"
       ],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.package": ["esbuild package"],
       "assets.deploy": [
         "assets.get",
         "tailwind default --minify",

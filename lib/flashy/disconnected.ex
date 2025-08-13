@@ -10,7 +10,7 @@ defmodule Flashy.Disconnected do
 
   alias Flashy.Helpers
 
-  alias Phoenix.LiveView.JS
+  alias Phoenix.LiveView.{JS, ColocatedHook}
 
   use Phoenix.Component
 
@@ -43,13 +43,46 @@ defmodule Flashy.Disconnected do
     <div
       id={@key}
       {@heex_class}
-      phx-hook="DisconnectedNotificationHook"
+      phx-hook=".DisconnectedNotificationHook"
       data-hide={@hide_action || Helpers.hide_notification(@key)}
       data-show={@show_action || Helpers.show_notification(@key)}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
     </div>
+
+    <script :type={ColocatedHook} name=".DisconnectedNotificationHook">
+      // We will wait for `timeout` ms before showing the disconnected notification
+      const timeout = 300
+
+      export default {
+        mounted() {
+          this.timer = null
+        },
+
+        destroyed() {
+          clearTimeout(this.timer)
+
+          this.timer = null
+        },
+
+        disconnected() {
+          if (!this.timer) {
+            this.timer = setTimeout(() => {
+              this.liveSocket.execJS(this.el, this.el.getAttribute("data-show"))
+            }, timeout)
+          }
+        },
+
+        reconnected() {
+          clearTimeout(this.timer)
+
+          this.timer = null
+
+          this.liveSocket.execJS(this.el, this.el.getAttribute("data-hide"))
+        }
+      }
+    </script>
     """
   end
 
