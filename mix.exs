@@ -35,7 +35,7 @@ defmodule Flashy.MixProject do
     [
       {:phoenix_live_view, "~> 1.1"},
       {:esbuild, "~> 0.9", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.3.1", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.4", runtime: Mix.env() == :dev},
       {:typedstruct, "~> 0.5.3", runtime: false},
       {:phx_component_helpers, "~> 1.4"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
