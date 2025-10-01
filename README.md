@@ -42,8 +42,7 @@ Now, inside `assets/css/app.css`:
 
 ``` css
 ...
-
-@source "../../deps/flashy/**/*.*ex"; /* <-- Add this line */
+@import "../../deps/flashy/assets/css/app.css"; /* <-- Add this line */
 ```
 
 Now go to your web file `lib/<your_app>_web.ex` and add the following to `html_helpers` function:
