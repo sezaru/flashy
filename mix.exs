@@ -20,6 +20,7 @@ defmodule Flashy.MixProject do
       description: @description,
       start_permanent: Mix.env() == :prod,
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
+      phoenix_live_view: [colocated_js: [node_modules_path: "assets"]],
       deps: deps(),
       docs: docs(),
       package: package(),
