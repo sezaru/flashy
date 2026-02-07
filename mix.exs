@@ -67,19 +67,9 @@ defmodule Flashy.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "compile", "assets.setup", "assets.build"],
-      "assets.get": ["cmd --cd assets npm install"],
-      "assets.setup": [
-        "assets.get",
-        "tailwind.install --if-missing",
-        "esbuild.install --if-missing"
-      ],
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": [
-        "assets.get",
-        "tailwind default --minify",
-        "esbuild default --minify",
-        "phx.digest"
-      ]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 
