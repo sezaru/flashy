@@ -61,7 +61,7 @@ defmodule Flashy.MixProject do
       maintainers: [@author],
       licenses: [@license],
       links: %{"Github" => @github},
-      files: ~w(mix.exs lib/flashy** assets package.json priv/static/flashy.min.js)
+      files: ~w(mix.exs lib/flashy** assets package.json priv/static/flashy.min.js usage-rules.md)
     ]
   end
 
